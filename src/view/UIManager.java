@@ -2,6 +2,7 @@ package view;
 
 import manager.GameEngine;
 //import manager.GameStatus;
+import manager.MapManager;
 import model.*;
 import model.StaticObject.*;
 import model.hero.*;
@@ -17,15 +18,14 @@ public class UIManager extends JPanel{
     private GameEngine engine;
     private Font gameFont;
     private BufferedImage image;
-    private Map map;
+    private MapManager mapManager;
 
     public UIManager(GameEngine engine, int width, int height) {
         setPreferredSize(new Dimension(width, height));
         setMaximumSize(new Dimension(width, height));
         setMinimumSize(new Dimension(width, height));
-        map = new Map();
-
         this.engine = engine;
+        this.mapManager = engine.mapManager;
 //        ImageLoader loader = engine.getImageLoader();
 //        BufferedImage sprite = loader.loadImage("/sprite.png");
 //        this.brick = sprite.getSubimage(0, 0, 48, 48);
@@ -52,10 +52,10 @@ public class UIManager extends JPanel{
     }
 
     private void drawGameObjects(Graphics2D g2) {
-        for(Wall wall : map.walls){
+        for(Wall wall : mapManager.map.walls){
             g2.drawImage(wall.getImage(), (int)wall.getX(), (int)wall.getY(), null);
         }
-        g2.drawImage(map.hero.getImage(), (int)map.hero.getX(), (int)map.hero.getY(), null);
+        g2.drawImage(mapManager.map.hero.getImage(), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY(), null);
 
     }
 }

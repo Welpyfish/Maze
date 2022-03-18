@@ -4,34 +4,36 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class InputManager implements KeyListener, MouseListener{
     private GameEngine engine;
+    private Hashtable<Integer, Boolean> inputs;
 
     InputManager(GameEngine engine)
     {
         this.engine = engine;
+        inputs = new Hashtable<Integer, Boolean>();
     }
 
     @Override
     public void keyPressed(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        ButtonAction currentAction = ButtonAction.NO_ACTION;
 
-        if (keyCode == KeyEvent.VK_UP) {
-            currentAction = ButtonAction.MOVE_UP;
-        }
-        else if(keyCode == KeyEvent.VK_DOWN){
-            currentAction = ButtonAction.MOVE_DOWN;
-        }
-        else if (keyCode == KeyEvent.VK_RIGHT) {
-            currentAction = ButtonAction.MOVE_RIGHT;
-        }
-        else if (keyCode == KeyEvent.VK_LEFT) {
-            currentAction = ButtonAction.MOVE_LEFT;
+        switch (keyCode){
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_DOWN:
+                if(!inputs.containsKey(keyCode)) {
+                    notifyInput(keyCode, true);
+                    this.inputs.put(keyCode, true);
+                }
+                break;
+            default:
         }
 
-        notifyInput(currentAction);
     }
 
     @Override
@@ -40,12 +42,24 @@ public class InputManager implements KeyListener, MouseListener{
 
     @Override
     public void keyReleased(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+
+        switch (keyCode){
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_DOWN:
+                if(inputs.containsKey(keyCode)) {
+                    notifyInput(keyCode, false);
+                    this.inputs.remove(keyCode);
+                }
+                break;
+            default:
+        }
     }
 
-    private void notifyInput(ButtonAction action) {
-        if(action != ButtonAction.NO_ACTION) {
-            engine.recieveInput(action);
-        }
+    private void notifyInput(int keycode, boolean type) {
+        engine.receiveInput(keycode, type);
     }
 
     @Override

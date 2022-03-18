@@ -5,5 +5,7 @@ public enum ButtonAction {
     MOVE_RIGHT,
     MOVE_LEFT,
     MOVE_UP,
-    MOVE_DOWN
+    MOVE_DOWN,
+    STOP_HORIZONTAL,
+    STOP_VERTICAL
 }

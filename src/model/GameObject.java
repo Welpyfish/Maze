@@ -12,7 +12,7 @@ abstract public class GameObject {
     public GameObject(double x, double y){
         this.x = x;
         this.y = y;
-        this.dimension = new Dimension(64, 64);
+        this.dimension = new Dimension(48, 48);
     }
 
     public void updateX(){
@@ -20,7 +20,19 @@ abstract public class GameObject {
     }
 
     public void updateY(){
-        this.y += this.speedY;
+        this.y -= this.speedY;
+    }
+
+    public void changeSpeedX(double change){
+        if(speedX + change <= 5 && speedX + change >= -5) {
+            speedX += change;
+        }
+    }
+
+    public void changeSpeedY(double change){
+        if(speedY + change <= 5 && speedY + change >= -5) {
+            speedY += change;
+        }
     }
 
     public boolean checkCollision(GameObject gameObject){
@@ -39,26 +51,19 @@ abstract public class GameObject {
         return result;
     }
 
-    public void horizontalCollision(GameObject gameObject){
-        if(checkCollision(gameObject)){
-            if(this.getSpeedX()>0){
-                this.setX(gameObject.getX() - this.dimension.width);
+    public void handleCollision(GameObject gameObject){
+        if(checkCollision(gameObject)) {
+            if (this.getSpeedX() > 0) {
+                this.setX(gameObject.getX() - this.dimension.width - 1);
+            } else if (this.getSpeedX() < 0) {
+                this.setX(gameObject.getX() + gameObject.dimension.width + 1);
             }
-             else if(this.getSpeedX()<0){
-                this.setX(gameObject.getX() + gameObject.dimension.width);
+            if (this.getSpeedY() > 0) {
+                this.setY(gameObject.getY() + gameObject.dimension.height + 1);
+            } else if (this.getSpeedY() < 0) {
+                this.setY(gameObject.getY() - this.dimension.height - 1);
             }
             this.setSpeedX(0);
-        }
-    }
-
-    public void verticalCollision(GameObject gameObject){
-        if(checkCollision(gameObject)){
-            if(this.getSpeedY()>0){
-                this.setY(gameObject.getY() + gameObject.dimension.height);
-            }
-            else if(this.getSpeedY()<0){
-                this.setX(gameObject.getY() + gameObject.dimension.height);
-            }
             this.setSpeedY(0);
         }
     }

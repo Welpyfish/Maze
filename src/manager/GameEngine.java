@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class GameEngine implements Runnable {
     private final static int WIDTH = 1268, HEIGHT = 708;
-    private MapManager mapManager;
+    public MapManager mapManager;
     //private GameStatus gameStatus;
     private boolean isRunning;
     private Thread thread;
@@ -57,8 +57,8 @@ public class GameEngine implements Runnable {
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
-        double ns = 1000000000 / amountOfTicks;
+        double fps = 60.0;
+        double ns = 1000000000 / fps;
         double delta = 0;
         //long timer = System.currentTimeMillis();
 
@@ -91,7 +91,7 @@ public class GameEngine implements Runnable {
     }
 
     private void gameLoop() {
-        mapManager.updateObject(mapManager.map.hero);
+        mapManager.updateMap();
         //updateLocations();
         //checkCollisions();
         //updateCamera();
@@ -99,8 +99,8 @@ public class GameEngine implements Runnable {
         //setGameStatus(GameStatus.GAME_OVER);
     }
 
-    public void recieveInput(ButtonAction action){
-        mapManager.manageInput(action);
+    public void receiveInput(int keycode, boolean type){
+        mapManager.manageInput(keycode, type);
     }
 
 //    public void setGameStatus(GameStatus gameStatus)

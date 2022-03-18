@@ -13,8 +13,8 @@ public class Map {
     private ArrayList<GameObject> allGameObjects = new ArrayList<GameObject>();
 
     private String[] levelMap = {
-            "              P            ",
-            "             XXX           ",
+            "                           ",
+            "   P         XXX           ",
             "                           ",
             " XXXXX                     ",
             "            XXXXXXXX       ",

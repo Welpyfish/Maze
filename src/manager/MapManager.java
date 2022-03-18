@@ -2,42 +2,56 @@ package manager;
 import model.GameObject;
 import model.Map;
 import model.StaticObject.Wall;
+import model.hero.Hero;
+
+import java.awt.event.KeyEvent;
+import java.util.Hashtable;
 
 public class MapManager {
     public Map map;
+    private boolean pressedLeft;
+    private boolean pressedRight;
+    private boolean pressedUp;
+    private boolean pressedDown;
 
     public MapManager(Map map){
         this.map = map;
     }
-    public void updateObject(GameObject gameObject)
+
+    public void updateMap(){
+        updateHero(map.hero);
+    }
+
+    public void updateHero(Hero hero)
     {
-        gameObject.updateX();
+        hero.updateMoveDirection(
+                (pressedLeft && !pressedRight) ? ButtonAction.MOVE_LEFT :
+                        ((pressedRight && !pressedLeft) ? ButtonAction.MOVE_RIGHT : ButtonAction.NO_ACTION),
+                (pressedUp && !pressedDown) ? ButtonAction.MOVE_UP:
+                        ((pressedDown && !pressedUp) ? ButtonAction.MOVE_DOWN : ButtonAction.NO_ACTION)
+        );
+        hero.update();
+
         for(Wall wall : map.walls) {
-            gameObject.horizontalCollision(wall);
-        }
-        gameObject.updateY();
-        for(Wall wall : map.walls) {
-            gameObject.verticalCollision(wall);
+            hero.handleCollision(wall);
         }
     }
 
-    public void manageInput(ButtonAction action){
-        switch(action){
-            case MOVE_LEFT:
-                map.hero.setSpeedX(-5);
+    public void manageInput(int keycode, boolean press){
+        switch (keycode)
+        {
+            case KeyEvent.VK_LEFT:
+                pressedLeft = press;
                 break;
-            case MOVE_RIGHT:
-                map.hero.setSpeedX(5);
+            case KeyEvent.VK_RIGHT:
+                pressedRight = press;
                 break;
-            case MOVE_UP:
-                map.hero.setSpeedY(-5);
+            case KeyEvent.VK_UP:
+                pressedUp = press;
                 break;
-            case MOVE_DOWN:
-                map.hero.setSpeedY(5);
+            case KeyEvent.VK_DOWN:
+                pressedDown = press;
                 break;
-            default:
-                map.hero.setSpeedX(0);
-                map.hero.setSpeedY(0);
         }
     }
 }
