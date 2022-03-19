@@ -4,10 +4,17 @@ import java.awt.*;
 
 public class Entity extends GameObject{
     private double speedX, speedY;
+    private int hp;
 
     public Entity(double x, double y){
         super(x, y);
         this.setDimension(36, 36);
+    }
+
+    public void takeDamage(int damage){
+        if(this.hp - damage > 0){
+            this.hp -= damage;
+        }
     }
 
     public void updateX(){
@@ -30,26 +37,31 @@ public class Entity extends GameObject{
         }
     }
 
-    public void horizontalCollision(GameObject gameObject) {
-
+    public boolean horizontalCollision(GameObject gameObject) {
+        boolean result = false;
         if (checkOverlap(gameObject)) {
             if (this.getSpeedX() > 0) {
-                this.setX(gameObject.getX() - this.getDimension().width - 1);
+                this.setX(gameObject.getX() - this.getDimension().width);
             } else if (this.getSpeedX() < 0) {
-                this.setX(gameObject.getX() + gameObject.getDimension().width + 1);
+                this.setX(gameObject.getX() + gameObject.getDimension().width);
             }
             this.setSpeedX(0);
+            result = true;
         }
+        return result;
     }
-    public void verticalCollision(GameObject gameObject){
+    public boolean verticalCollision(GameObject gameObject){
+        boolean result = false;
         if(checkOverlap(gameObject)) {
             if (this.getSpeedY() > 0) {
-                this.setY(gameObject.getY() + gameObject.getDimension().height + 1);
+                this.setY(gameObject.getY() + gameObject.getDimension().height);
             } else if (this.getSpeedY() < 0) {
-                this.setY(gameObject.getY() - this.getDimension().height - 1);
+                this.setY(gameObject.getY() - this.getDimension().height);
             }
             this.setSpeedY(0);
+            result = true;
         }
+        return result;
     }
 
     public double getSpeedX() {
@@ -66,5 +78,13 @@ public class Entity extends GameObject{
 
     public void setSpeedY(double speedY) {
         this.speedY = speedY;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }

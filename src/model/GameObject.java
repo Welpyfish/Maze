@@ -19,13 +19,13 @@ abstract public class GameObject {
     public boolean checkOverlap(GameObject gameObject){
         boolean result = true;
 
-        if(this.getX() > gameObject.getX() + gameObject.dimension.width){
+        if(this.getX() >= gameObject.getX() + gameObject.dimension.width){
             result = false;
-        } else if(this.getX() + this.dimension.width < gameObject.getX()){
+        } else if(this.getX() + this.dimension.width <= gameObject.getX()){
             result = false;
-        } else if(this.getY() > gameObject.getY() + gameObject.dimension.height){
+        } else if(this.getY() >= gameObject.getY() + gameObject.dimension.height){
             result = false;
-        } else if(this.getY() + this.dimension.height < gameObject.getY()){
+        } else if(this.getY() + this.dimension.height <= gameObject.getY()){
             result = false;
         }
 

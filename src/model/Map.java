@@ -13,20 +13,28 @@ public class Map {
     private ArrayList<GameObject> allGameObjects = new ArrayList<GameObject>();
 
     private String[] levelMap = {
-            "                           ",
-            "   P         XXX           ",
-            "                           ",
-            " XXXXX                     ",
-            "            XXXXXXXX       ",
-            "         X  X              ",
-            "       XXX  X              ",
-            "    XXXXXX  X       XXX    ",
-            "XXXXXXXXXX  XXXXXXXXXXX    ",
+            "XXXXXXXXXXXXXXXXXXXXXXXXX",
+            "X   P X      E          X",
+            "X     X                 X",
+            "X     XXXXXXXXXXXXXXX   X",
+            "X     X                 X",
+            "X  XXXX     X           X",
+            "X           X           X",
+            "X           XXXXXXXXXXXXX",
+            "X                       X",
+            "XXXXXXXXXX              X",
+            "X           XXXXXXXX    X",
+            "X           X           X",
+            "X           X           X",
+            "X           X           X",
+            "XXXXXXXXXXXXXXXXXXXXXXXXX",
     };
 
     private int tileSize = 48;
 
     public ArrayList<Wall> walls = new ArrayList<Wall>();
+    public ArrayList<GameObject> collideableObjects = new ArrayList<GameObject>();
+    public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     public Hero hero;
 
     public Map(){
@@ -38,11 +46,19 @@ public class Map {
             for(int j=0; j<levelMap[i].length(); j++){
                 int x = j*tileSize;
                 int y = i*tileSize;
-                if(levelMap[i].charAt(j) == 'X') {
-                    Wall newWall = new Wall(x, y);
-                    walls.add(newWall);
-                } else if(levelMap[i].charAt(j) == 'P'){
-                    hero = new Hero(x, y);
+                switch (levelMap[i].charAt(j)) {
+                    case 'X':
+                        Wall newWall = new Wall(x, y);
+                        walls.add(newWall);
+                        break;
+                    case 'P':
+                        hero = new Hero(x, y);
+                        break;
+                    case 'E':
+                        Enemy newEnemy = new Enemy(x, y);
+                        enemies.add(newEnemy);
+                        break;
+                    default:
                 }
             }
         }

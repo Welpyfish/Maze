@@ -1,4 +1,5 @@
 package manager;
+import model.Enemy;
 import model.GameObject;
 import model.Map;
 import model.StaticObject.Wall;
@@ -34,9 +35,21 @@ public class MapManager {
         for(Wall wall : map.walls) {
             hero.horizontalCollision(wall);
         }
+        for(Enemy enemy : map.enemies) {
+            boolean collide = hero.horizontalCollision(enemy);
+            if(collide){
+                hero.takeDamage(1);
+            }
+        }
         hero.updateY();
         for(Wall wall : map.walls) {
             hero.verticalCollision(wall);
+        }
+        for(Enemy enemy : map.enemies) {
+            boolean collide = hero.verticalCollision(enemy);
+            if(collide){
+                hero.takeDamage(1);
+            }
         }
     }
 

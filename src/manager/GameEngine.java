@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameEngine implements Runnable {
-    private final static int WIDTH = 1268, HEIGHT = 708;
+    private final static int WIDTH = 1200, HEIGHT = 720;
     public MapManager mapManager;
     //private GameStatus gameStatus;
     private boolean isRunning;

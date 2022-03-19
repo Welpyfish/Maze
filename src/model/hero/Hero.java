@@ -14,6 +14,7 @@ public class Hero extends Entity {
 
     public Hero(double x, double y){
         super(x, y);
+        this.setHp(50);
 
         ImageLoader imageLoader = new ImageLoader();
 

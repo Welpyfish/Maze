@@ -35,7 +35,7 @@ public class UIManager extends JPanel{
 //            InputStream in = getClass().getResourceAsStream("/media/font/mario-font.ttf");
 //            gameFont = Font.createFont(Font.TRUETYPE_FONT, in);
 //        } catch (FontFormatException | IOException e) {
-//            gameFont = new Font("Verdana", Font.PLAIN, 12);
+            gameFont = new Font("Verdana", Font.BOLD, 12);
 //            e.printStackTrace();
 //        }
     }
@@ -52,10 +52,15 @@ public class UIManager extends JPanel{
     }
 
     private void drawGameObjects(Graphics2D g2) {
+        g2.setFont(gameFont);
+        g2.setColor(Color.BLUE);
         for(Wall wall : mapManager.map.walls){
             g2.drawImage(wall.getImage(), (int)wall.getX(), (int)wall.getY(), null);
         }
+        for(Enemy enemy : mapManager.map.enemies){
+            g2.drawImage(enemy.getImage(), (int)enemy.getX(), (int)enemy.getY(), null);
+        }
         g2.drawImage(mapManager.map.hero.getImage(), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY(), null);
-
+        g2.drawString(Integer.toString(mapManager.map.hero.getHp()), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY() - 5);
     }
 }
