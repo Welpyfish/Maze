@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 
 abstract public class GameObject {
     private double x, y;
-    private double speedX, speedY;
     private Dimension dimension;
     private BufferedImage image;
 
@@ -15,27 +14,9 @@ abstract public class GameObject {
         this.dimension = new Dimension(48, 48);
     }
 
-    public void updateX(){
-        this.x += this.speedX;
-    }
 
-    public void updateY(){
-        this.y -= this.speedY;
-    }
 
-    public void changeSpeedX(double change){
-        if(speedX + change <= 5 && speedX + change >= -5) {
-            speedX += change;
-        }
-    }
-
-    public void changeSpeedY(double change){
-        if(speedY + change <= 5 && speedY + change >= -5) {
-            speedY += change;
-        }
-    }
-
-    public boolean checkCollision(GameObject gameObject){
+    public boolean checkOverlap(GameObject gameObject){
         boolean result = true;
 
         if(this.getX() > gameObject.getX() + gameObject.dimension.width){
@@ -49,23 +30,6 @@ abstract public class GameObject {
         }
 
         return result;
-    }
-
-    public void handleCollision(GameObject gameObject){
-        if(checkCollision(gameObject)) {
-            if (this.getSpeedX() > 0) {
-                this.setX(gameObject.getX() - this.dimension.width - 1);
-            } else if (this.getSpeedX() < 0) {
-                this.setX(gameObject.getX() + gameObject.dimension.width + 1);
-            }
-            if (this.getSpeedY() > 0) {
-                this.setY(gameObject.getY() + gameObject.dimension.height + 1);
-            } else if (this.getSpeedY() < 0) {
-                this.setY(gameObject.getY() - this.dimension.height - 1);
-            }
-            this.setSpeedX(0);
-            this.setSpeedY(0);
-        }
     }
 
     public void setLocation(double x, double y) {
@@ -98,22 +62,6 @@ abstract public class GameObject {
     }
 
     public void setDimension(int width, int height){ this.dimension =  new Dimension(width, height); }
-
-    public double getSpeedX() {
-        return speedX;
-    }
-
-    public void setSpeedX(double speedX) {
-        this.speedX = speedX;
-    }
-
-    public double getSpeedY() {
-        return speedY;
-    }
-
-    public void setSpeedY(double speedY) {
-        this.speedY = speedY;
-    }
 
     public BufferedImage getImage() {
         return image;

@@ -30,10 +30,13 @@ public class MapManager {
                 (pressedUp && !pressedDown) ? ButtonAction.MOVE_UP:
                         ((pressedDown && !pressedUp) ? ButtonAction.MOVE_DOWN : ButtonAction.NO_ACTION)
         );
-        hero.update();
-
+        hero.updateX();
         for(Wall wall : map.walls) {
-            hero.handleCollision(wall);
+            hero.horizontalCollision(wall);
+        }
+        hero.updateY();
+        for(Wall wall : map.walls) {
+            hero.verticalCollision(wall);
         }
     }
 

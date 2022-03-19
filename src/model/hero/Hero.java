@@ -1,13 +1,14 @@
 package model.hero;
 
 import manager.ButtonAction;
+import model.Entity;
 import model.GameObject;
 import view.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Hero extends GameObject {
+public class Hero extends Entity {
     private ButtonAction actionX;
     private ButtonAction actionY;
 
@@ -17,8 +18,7 @@ public class Hero extends GameObject {
         ImageLoader imageLoader = new ImageLoader();
 
         BufferedImage sprite = imageLoader.loadImage("/media/sprite.png");
-        this.setImage(sprite.getSubimage(48, 0, 48, 48));
-        setDimension(48,48);
+        this.setImage(sprite.getSubimage(48, 0, this.getDimension().width, this.getDimension().height));
         //remainingLives = 3;
         //points = 0;
         //coins = 0;
@@ -39,19 +39,19 @@ public class Hero extends GameObject {
 
         if (x == ButtonAction.MOVE_LEFT)
         {
-            changeSpeedX(-1);
+            setSpeedX(-5);
         }
         if (x == ButtonAction.MOVE_RIGHT)
         {
-            changeSpeedX(1);
+            setSpeedX(5);
         }
         if (y == ButtonAction.MOVE_UP)
         {
-            changeSpeedY(1);
+            setSpeedY(5);
         }
         if (y == ButtonAction.MOVE_DOWN)
         {
-            changeSpeedY(-1);
+            setSpeedY(-5);
         }
         if (x == ButtonAction.NO_ACTION){
             setSpeedX(0);
@@ -61,13 +61,19 @@ public class Hero extends GameObject {
         }
     }
 
-    public void update()
+    @Override
+    public void updateX()
     {
         if (actionX != ButtonAction.NO_ACTION) {
-            updateX();
+            super.updateX();
         }
+    }
+
+    @Override
+    public void updateY()
+    {
         if (actionY != ButtonAction.NO_ACTION) {
-            updateY();
+            super.updateY();
         }
     }
 }
