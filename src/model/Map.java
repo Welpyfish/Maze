@@ -4,6 +4,9 @@ import manager.ButtonAction;
 import model.*;
 import model.StaticObject.*;
 import model.hero.Hero;
+import model.item.Melee;
+//import model.item.Sword;
+import model.item.Weapon;
 
 import java.util.ArrayList;
 import java.lang.String;
@@ -14,13 +17,13 @@ public class Map {
 
     private String[] levelMap = {
             "XXXXXXXXXXXXXXXXXXXXXXXXX",
-            "X   P X      E          X",
+            "X    PX      E          X",
             "X     X                 X",
             "X     XXXXXXXXXXXXXXX   X",
             "X     X                 X",
             "X  XXXX     X           X",
             "X           X           X",
-            "X           XXXXXXXXXXXXX",
+            "X      E    XXXXXXXXXXXXX",
             "X                       X",
             "XXXXXXXXXX              X",
             "X           XXXXXXXX    X",
@@ -50,13 +53,16 @@ public class Map {
                     case 'X':
                         Wall newWall = new Wall(x, y);
                         walls.add(newWall);
+                        collideableObjects.add(newWall);
                         break;
                     case 'P':
-                        hero = new Hero(x, y);
+                        hero = new Hero(x, y, new Melee());
+                        collideableObjects.add(hero);
                         break;
                     case 'E':
-                        Enemy newEnemy = new Enemy(x, y);
+                        Enemy newEnemy = new Enemy(x, y, new Melee());
                         enemies.add(newEnemy);
+                        collideableObjects.add(newEnemy);
                         break;
                     default:
                 }

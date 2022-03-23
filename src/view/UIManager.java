@@ -59,8 +59,10 @@ public class UIManager extends JPanel{
         }
         for(Enemy enemy : mapManager.map.enemies){
             g2.drawImage(enemy.getImage(), (int)enemy.getX(), (int)enemy.getY(), null);
+            g2.drawString(Integer.toString(enemy.getHp()), (int)enemy.getX(), (int)enemy.getY() - 5);
         }
         g2.drawImage(mapManager.map.hero.getImage(), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY(), null);
+        g2.drawImage(mapManager.map.hero.getWeapon().getImage(), (int)mapManager.map.hero.getWeapon().getX(), (int)mapManager.map.hero.getWeapon().getY(), null);
         g2.drawString(Integer.toString(mapManager.map.hero.getHp()), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY() - 5);
     }
 }

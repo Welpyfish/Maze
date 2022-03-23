@@ -3,17 +3,19 @@ package model.hero;
 import manager.ButtonAction;
 import model.Entity;
 import model.GameObject;
+import model.item.Weapon;
 import view.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.WeakHashMap;
 
 public class Hero extends Entity {
     private ButtonAction actionX;
     private ButtonAction actionY;
 
-    public Hero(double x, double y){
-        super(x, y);
+    public Hero(double x, double y, Weapon weapon){
+        super(x, y, weapon);
         this.setHp(50);
 
         ImageLoader imageLoader = new ImageLoader();
@@ -31,35 +33,6 @@ public class Hero extends Entity {
         //Animation animation = new Animation(leftFrames, rightFrames);
         //marioForm = new MarioForm(animation, false, false);
         //setStyle(marioForm.getCurrentStyle(toRight, false, false));
-    }
-
-    public void updateMoveDirection(ButtonAction x, ButtonAction y)
-    {
-        actionX = x;
-        actionY = y;
-
-        if (x == ButtonAction.MOVE_LEFT)
-        {
-            setSpeedX(-5);
-        }
-        if (x == ButtonAction.MOVE_RIGHT)
-        {
-            setSpeedX(5);
-        }
-        if (y == ButtonAction.MOVE_UP)
-        {
-            setSpeedY(5);
-        }
-        if (y == ButtonAction.MOVE_DOWN)
-        {
-            setSpeedY(-5);
-        }
-        if (x == ButtonAction.NO_ACTION){
-            setSpeedX(0);
-        }
-        if (y == ButtonAction.NO_ACTION){
-            setSpeedY(0);
-        }
     }
 
     @Override

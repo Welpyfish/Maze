@@ -2,8 +2,9 @@ package manager;
 
 //import model.hero.Mario;
 //import view.ImageLoader;
+
+import model.Map;
 import view.UIManager;
-import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,7 +70,7 @@ public class GameEngine implements Runnable {
             lastTime = now;
             while (delta >= 1) {
                 //if (gameStatus == GameStatus.RUNNING) {
-                    gameLoop();
+                gameLoop();
                 //}
                 delta--;
             }
@@ -99,7 +100,7 @@ public class GameEngine implements Runnable {
         //setGameStatus(GameStatus.GAME_OVER);
     }
 
-    public void receiveInput(int keycode, boolean type){
+    public void receiveInput(int keycode, boolean type) {
         mapManager.manageInput(keycode, type);
     }
 
