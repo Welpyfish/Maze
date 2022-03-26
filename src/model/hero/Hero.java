@@ -1,8 +1,7 @@
 package model.hero;
 
 import manager.ButtonAction;
-import model.Entity;
-import model.GameObject;
+import model.*;
 import model.item.Weapon;
 import view.ImageLoader;
 
@@ -14,6 +13,7 @@ public class Hero extends Entity {
     private ButtonAction actionX;
     private ButtonAction actionY;
 
+
     public Hero(double x, double y, Weapon weapon){
         super(x, y, weapon);
         this.setHp(50);
@@ -22,6 +22,7 @@ public class Hero extends Entity {
 
         BufferedImage sprite = imageLoader.loadImage("/media/sprite.png");
         this.setImage(sprite.getSubimage(48, 0, this.getDimension().width, this.getDimension().height));
+
         //remainingLives = 3;
         //points = 0;
         //coins = 0;
@@ -50,4 +51,6 @@ public class Hero extends Entity {
             super.updateY();
         }
     }
+
+
 }

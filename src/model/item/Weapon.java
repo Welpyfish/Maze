@@ -15,9 +15,8 @@ public class Weapon extends GameObject {
         range = 10;
     }
 
-    public void updateLocation(Entity entity){
-        setX(entity.getX());
-        setY(entity.getY());
+    public void update(Entity entity, Map map){
+
     }
 
     public void attack(Entity entity, Map map) {

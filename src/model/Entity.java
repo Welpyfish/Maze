@@ -1,6 +1,7 @@
 package model;
 
 import model.hero.HeroAction;
+import model.hero.HeroIdleState;
 import model.item.Weapon;
 
 import java.awt.*;
@@ -11,6 +12,7 @@ public class Entity extends GameObject{
     private int hp;
     private boolean isHit;
     private Weapon weapon;
+    private StateMachine movementStates;
 
     public Entity(double x, double y, Weapon weapon){
         super(x, y);
@@ -19,6 +21,8 @@ public class Entity extends GameObject{
         isHit = false;
         weapon.setX(getX());
         weapon.setY(getY());
+
+        movementStates = new StateMachine(HeroIdleState.instance(), this);
     }
 
     public void changeHp(int damage){
@@ -48,16 +52,37 @@ public class Entity extends GameObject{
     }
 
     public void updateAction(byte action, Map map){
-        weapon.updateLocation(this);
         if ((action & HeroAction.ATTACK) != 0){
             weapon.attack(this, map);
         }
+        weapon.update(this, map);
     }
 
     public void updateLocation(byte movement, Map map) {
-        //updateStates(action);
+        updateMovementStates(movement);
         move(movement);
         updateMovement(map);
+    }
+
+    private void updateMovementStates(byte movement) {
+        //Change current state based on events and perform actions based on current state
+        if (movement == HeroAction.NO_ACTION) {
+            movementStates.onEvent(StateEvent.IDLE);
+        }
+        if ((movement & HeroAction.MOVE_LEFT) != 0) {
+            movementStates.onEvent(StateEvent.WALK_LEFT);
+        }
+        if ((movement & HeroAction.MOVE_RIGHT) != 0) {
+            movementStates.onEvent(StateEvent.WALK_RIGHT);
+        }
+        if ((movement & HeroAction.MOVE_UP) != 0) {
+            movementStates.onEvent(StateEvent.WALK_UP);
+        }
+        if ((movement & HeroAction.MOVE_DOWN) != 0) {
+            movementStates.onEvent(StateEvent.WALK_DOWN);
+        }
+
+        movementStates.update();
     }
 
     private void move(byte movement) {
