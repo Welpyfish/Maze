@@ -1,48 +1,68 @@
 package view;
 
-import controller.GameEngine;
-import model.Map;
-import model.Platform;
+import manager.GameEngine;
+//import manager.GameStatus;
+import manager.MapManager;
+import model.*;
+import model.StaticObject.*;
+import model.hero.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class UIManager extends JPanel
-{
-    private GameEngine gameEngine;
-    private Map map;
-    private ImageLoader imageLoader;
+public class UIManager extends JPanel{
+    private GameEngine engine;
+    private Font gameFont;
+    private BufferedImage image;
+    private MapManager mapManager;
 
-    private BufferedImage playerImage;
-    private BufferedImage platformImage;
+    public UIManager(GameEngine engine, int width, int height) {
+        setPreferredSize(new Dimension(width, height));
+        setMaximumSize(new Dimension(width, height));
+        setMinimumSize(new Dimension(width, height));
+        this.engine = engine;
+        this.mapManager = engine.mapManager;
+//        ImageLoader loader = engine.getImageLoader();
+//        BufferedImage sprite = loader.loadImage("/sprite.png");
+//        this.brick = sprite.getSubimage(0, 0, 48, 48);
+//        this.goomba = sprite.getSubimage(48, 144, 48, 48);
 
-    public UIManager(GameEngine gameEngine)
-    {
-        this.gameEngine = gameEngine;
-        this.map = gameEngine.getMapManager().getMap();
-        imageLoader = gameEngine.getImageLoader();
-        setPreferredSize(new Dimension(1000, 720));
-
-        playerImage = imageLoader.loadImage("media/player_block.png");
-        platformImage = imageLoader.loadImage("media/platform_block.png");
+//        try {
+//            InputStream in = getClass().getResourceAsStream("/media/font/mario-font.ttf");
+//            gameFont = Font.createFont(Font.TRUETYPE_FONT, in);
+//        } catch (FontFormatException | IOException e) {
+            gameFont = new Font("Verdana", Font.BOLD, 12);
+//            e.printStackTrace();
+//        }
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g){
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g.create();
+        //GameStatus gameStatus = engine.getGameStatus();
         drawGameObjects(g2);
+//        engine.drawMap(g2);
         g2.dispose();
     }
 
-    private void drawGameObjects(Graphics2D g2)
-    {
-        for(Platform platform : map.getPlatforms()){
-            g2.drawImage(platformImage, (int)platform.getX(), (int)platform.getY(), null);
+    private void drawGameObjects(Graphics2D g2) {
+        g2.setFont(gameFont);
+        g2.setColor(Color.BLUE);
+        for(Wall wall : mapManager.map.walls){
+            g2.drawImage(wall.getImage(), (int)wall.getX(), (int)wall.getY(), null);
         }
-        g2.drawImage(playerImage, (int)map.getPlayer().getX(), (int)map.getPlayer().getY(), null);
+        for(Enemy enemy : mapManager.map.enemies){
+            g2.drawImage(enemy.getImage(), (int)enemy.getX(), (int)enemy.getY(), null);
+            g2.drawString(Integer.toString(enemy.getHp()), (int)enemy.getX(), (int)enemy.getY() - 5);
+        }
+        g2.drawImage(mapManager.map.hero.getImage(), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY(), null);
+        g2.drawImage(mapManager.map.hero.getWeapon().getImage(), (int)mapManager.map.hero.getWeapon().getX(), (int)mapManager.map.hero.getWeapon().getY(), null);
+        g2.drawString(Integer.toString(mapManager.map.hero.getHp()), (int)mapManager.map.hero.getX(), (int)mapManager.map.hero.getY() - 5);
     }
-
 }

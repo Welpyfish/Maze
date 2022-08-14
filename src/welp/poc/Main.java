@@ -1,7 +1,6 @@
 package welp.poc;
 
-
-import controller.GameEngine;
+import manager.GameEngine;
 
 public class Main {
 
